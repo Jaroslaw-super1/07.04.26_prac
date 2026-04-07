@@ -1,11 +1,12 @@
 #include <iostream>
 
 template< class T >
-struct BiTree
+struct TriTree
 {
-  T val;
-  BiTree< T > * lt, * rt, * parent;
+  T val0, val1;
+  TriTree< T > * lt, * rt, * mid * parent;
 };
+
 
 template< class T, class F >
 BiTree< T > * fallLeft(BiTree< T > * node)
@@ -25,7 +26,7 @@ BiTree< T > * fallLeft(BiTree< T > * node)
 
 
 template< class T, class F >
-F travers(BiTree< T > * root, F f)
+F travers(TriTree< T > * root, F f)
 {
   if (!root)
   {
@@ -61,9 +62,10 @@ F travers(BiTree< T > * root, F f)
 
 
 template< class T >
-struct BiTreeIt
+struct TriTreeIt
 {
-  BiTree< T > * curr;
+  size_t s;
+  TriTree< T > * curr;
 };
 
 
