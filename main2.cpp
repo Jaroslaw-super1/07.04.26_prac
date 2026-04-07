@@ -4,12 +4,12 @@ template< class T >
 struct TriTree
 {
   T val0, val1;
-  TriTree< T > * lt, * rt, * mid * parent;
+  TriTree< T > * lt, * rt, * mid, * parent;
 };
 
-
+!!!!!!!!!!!!!!!!
 template< class T, class F >
-BiTree< T > * fallLeft(BiTree< T > * node)
+TriTree< T > * fallLeft(TriTree< T > * node)
 {
   if (!node)
   {
@@ -24,7 +24,7 @@ BiTree< T > * fallLeft(BiTree< T > * node)
   return node;
 }
 
-
+!!!!!!!!!!!!!!
 template< class T, class F >
 F travers(TriTree< T > * root, F f)
 {
@@ -71,32 +71,62 @@ struct TriTreeIt
 
 
 template< class T >
-T & value(BiTreeIt< T > it)
+T & value(TriTreeIt< T > it)
 {
-  return it.curr->val;
+  if (!it.s)
+  {
+    return it.curr->val0;
+  }
+  return it.curr->val1;
 }
 
 
 template< class T >
-BiTreeIt< T > next(BiTreeIt< T > it)
+TriTree< T > next(TriTree< T > it)
 {
-  BiTree< T > * curr = it.curr;
+  TriTree< T > * curr = it.curr;
+  size_t ind = it.s;
 
   if (!curr)
   {
     return it;
   }
 
-  if (curr->rt)
+  if (!ind)
   {
-    curr = fallLeft(curr->rt);
+    if (curr->mid)
+    {
+      curr = curr->mid;
+      curr = fallLeft(curr);
+      ind = 0;
+    }
+    else
+    {
+      ind = 1;
+    }
   }
   else
   {
-    BiTree< T > * parent = curr->parent;
-
-    while (parent && parent->it != curr)
+    if (curr.rt)
     {
+      curr = curr->rt;
+      curr = fallLeft(curr);
+      ind = 0;
+    }
+    else
+    {
+      TriTree< T > * parent = curr.parent;
+
+      if (parent->mid == curr)
+      {
+        ind = 1;
+        break;
+      }
+      if (parent->lt == curr)
+      {
+        ind = 0;
+        break;
+      }
       curr = parent;
       parent = curr->parent;
     }
@@ -104,10 +134,10 @@ BiTreeIt< T > next(BiTreeIt< T > it)
     curr = parent;
   }
 
-  return {curr};
+  return {ind, curr};
 }
 
-
+!!!!!!!!!!1
 template< class T, class F >
 BiTree< T > * fallRight(BiTree< T > * node)
 {
@@ -124,26 +154,52 @@ BiTree< T > * fallRight(BiTree< T > * node)
   return node;
 }
 
+!!!!!!!!!!
 template< class T >
-BiTreeIt< T > prev(BiTreeIt< T > it)
+TriTreeIt< T > prev(TriTreeIt< T > it)
 {
-  BiTree< T > * curr = it.curr;
+  TriTree< T > * curr = it.curr;
 
   if (!curr)
   {
     return it;
   }
 
-  if (curr->lt)
+  if (!ind)
   {
-    curr = fallRight(curr->lt);
+    if (curr->mid)
+    {
+      curr = curr->mid;
+      curr = fallLeft(curr);
+      ind = 0;
+    }
+    else
+    {
+      ind = 1;
+    }
   }
   else
   {
-    BiTree< T > * parent = curr->parent;
-
-    while (parent && parent->lt != curr)
+    if (curr.rt)
     {
+      curr = curr->rt;
+      curr = fallLeft(curr);
+      ind = 0;
+    }
+    else
+    {
+      TriTree< T > * parent = curr.parent;
+
+      if (parent->mid == curr)
+      {
+        ind = 1;
+        break;
+      }
+      if (parent->lt == curr)
+      {
+        ind = 0;
+        break;
+      }
       curr = parent;
       parent = curr->parent;
     }
@@ -151,18 +207,18 @@ BiTreeIt< T > prev(BiTreeIt< T > it)
     curr = parent;
   }
 
-  return {curr};
+  return {ind, curr};
 }
 
 
 template< class T >
-bool hasNext(BiTreeIt< T > it)
+bool hasNext(TriTreeIt< T > it)
 {
   return next(it).curr;
 }
 
 template< class T >
-bool hasPrev(BiTreeIt< T > it)
+bool hasPrev(TriTreeIt< T > it)
 {
   return prev(it).curr;
 }
