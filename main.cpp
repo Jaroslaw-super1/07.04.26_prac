@@ -67,7 +67,6 @@ struct BiTreeIt
 };
 
 
-
 template< class T >
 T & value(BiTreeIt< T > it)
 {
@@ -166,7 +165,33 @@ bool hasPrev(BiTreeIt< T > it)
 }
 
 
-template< class T, class Cmp>
+
+
+
+
+
+
+template< class T, class Cmp >
+bool less(T t1, T t2, Cmp cmp)
+{
+  return cmp(t1, t2);
+}
+
+template< class T, class Cmp >
+bool greater(T t1, T t2, Cmp cmp)
+{
+  return cmp(t2, t1);
+}
+
+template< class T, class Cmp >
+bool notEqual(T t1, T t2, Cmp cmp)
+{
+  return less(t1, t2, cmp) || greater(t1, t2, cmp);
+}
+
+
+
+template< class T, class Cmp >
 bool isEqual(BiTreeIt< T > * lhs, BiTreeIt< T > * rhs, Cmp cmp)
 {
   if (!lhs && ! rhs)
@@ -174,6 +199,19 @@ bool isEqual(BiTreeIt< T > * lhs, BiTreeIt< T > * rhs, Cmp cmp)
     return true;
   }
   
+  BiTreeIt< T > * b1 = fallLeft(lhs);
+  BiTreeIt< T > * b2 = fallLeft(rhs);
+
+  while (nasNext(b1) && hasNext(b2))
+  {
+    if (b1->val != b2->val)
+    {
+      return false;
+    }
+
+    b1 = next(b1);
+    b2 = next(b2);
+  }
   
 }
 
