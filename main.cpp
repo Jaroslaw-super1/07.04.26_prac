@@ -190,21 +190,12 @@ bool notEqual(T t1, T t2, Cmp cmp)
 }
 
 
-
 template< class T, class Cmp >
-bool isEqual(BiTreeIt< T > * lhs, BiTreeIt< T > * rhs, Cmp cmp)
+std::pair< bool, BiTreeIt< T > > isEqualRange(BiTree< T > * b1, BiTree< T > * e1, BiTree< T > * b2, Cmp cmp)
 {
-  if (!lhs && ! rhs)
+  while (b1 != e1 && hasNext(b2))
   {
-    return true;
-  }
-  
-  BiTreeIt< T > * b1 = fallLeft(lhs);
-  BiTreeIt< T > * b2 = fallLeft(rhs);
-
-  while (nasNext(b1) && hasNext(b2))
-  {
-    if (notEqual(t1, t2, cmp))
+    if (notEqual(b1->val, b2->val, cmp))
     {
       return false;
     }
@@ -212,17 +203,51 @@ bool isEqual(BiTreeIt< T > * lhs, BiTreeIt< T > * rhs, Cmp cmp)
     b1 = next(b1);
     b2 = next(b2);
   }
+  return b1 == e1;
+}
+
+// !! Не доделана
+template< class T, class Cmp >
+bool isEqual(BiTree< T > * lhs, BiTree< T > * rhs, Cmp cmp)
+{
+  if (!lhs && ! rhs)
+  {
+    return true;
+  }
+
+  BiTree< T > * b1 = fallLeft(lhs);
+  BiTree< T > * b2 = fallLeft(rhs);
+
+  isEqualRange(b1, nullptr, b2, cmp);
+
   return !hasNext(b1) && !hasNext(b2);
 }
 
+template< class T, class Cmp >
+BiTree< T > * finde(const BiTree< T > * r, T val, Cmp cmp);
 
+template< class T, class Cmp >
+bool included(BiTree< T > * origin, BiTree< T > * rhs, Cmp cmp)
+{
+  if (!rhs)
+  {
+    return true;
+  }
 
+  if (!origin)
+  {
+    return false;
+  }
+
+  BiTree< T > * brhs = fallLeft(rhs);
+  BiTree< T > * bo = finde(origin, brhs->val, cmp);
+
+  return isEqualRange(brhs, nullptr, bo, cmp).first;
+}
 
 
 
 int main()
 {
-
-
   return 0;
 }
