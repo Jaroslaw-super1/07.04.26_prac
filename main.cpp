@@ -93,7 +93,7 @@ BiTreeIt< T > next(BiTreeIt< T > it)
   {
     BiTree< T > * parent = curr->parent;
 
-    while (parent && parent->it != curr)
+    while (parent && parent->rt != curr)
     {
       curr = parent;
       parent = curr->parent;
@@ -164,6 +164,20 @@ bool hasPrev(BiTreeIt< T > it)
 {
   return prev(it).curr;
 }
+
+
+template< class T, class Cmp>
+bool isEqual(BiTreeIt< T > * lhs, BiTreeIt< T > * rhs, Cmp cmp)
+{
+  if (!lhs && ! rhs)
+  {
+    return true;
+  }
+  
+  
+}
+
+
 
 
 

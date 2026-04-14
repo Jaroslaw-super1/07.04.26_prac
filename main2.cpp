@@ -7,7 +7,7 @@ struct TriTree
   TriTree< T > * lt, * rt, * mid, * parent;
 };
 
-!!!!!!!!!!!!!!!!
+//!!!!!!!!!!!!!!!!
 template< class T, class F >
 TriTree< T > * fallLeft(TriTree< T > * node)
 {
@@ -24,7 +24,7 @@ TriTree< T > * fallLeft(TriTree< T > * node)
   return node;
 }
 
-!!!!!!!!!!!!!!
+//!!!!!!!!!!!!!!
 template< class T, class F >
 F travers(TriTree< T > * root, F f)
 {
@@ -137,9 +137,9 @@ TriTree< T > next(TriTree< T > it)
   return {ind, curr};
 }
 
-!!!!!!!!!!1
+//!!!!!!!!!!1
 template< class T, class F >
-BiTree< T > * fallRight(BiTree< T > * node)
+TriTree< T > * fallRight(TriTree< T > * node)
 {
   if (!node)
   {
@@ -154,7 +154,7 @@ BiTree< T > * fallRight(BiTree< T > * node)
   return node;
 }
 
-!!!!!!!!!!
+//!!!!!!!!!!
 template< class T >
 TriTreeIt< T > prev(TriTreeIt< T > it)
 {
@@ -228,7 +228,5 @@ bool hasPrev(TriTreeIt< T > it)
 
 int main()
 {
-
-
   return 0;
 }
