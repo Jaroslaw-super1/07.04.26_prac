@@ -204,7 +204,7 @@ bool isEqual(BiTreeIt< T > * lhs, BiTreeIt< T > * rhs, Cmp cmp)
 
   while (nasNext(b1) && hasNext(b2))
   {
-    if (b1->val != b2->val)
+    if (notEqual(t1, t2, cmp))
     {
       return false;
     }
@@ -212,7 +212,7 @@ bool isEqual(BiTreeIt< T > * lhs, BiTreeIt< T > * rhs, Cmp cmp)
     b1 = next(b1);
     b2 = next(b2);
   }
-  
+  return !hasNext(b1) && !hasNext(b2);
 }
 
 
